@@ -1,0 +1,42 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Segoe UI', 'Nunito', 'Poppins', 'Montserrat', 'Inter', 'Roboto', Arial, sans-serif;
+  background: #f7fafd;
+}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f7f7fa;
+  font-family: 'Inter', 'Roboto', 'Poppins', 'Montserrat', 'Segoe UI', 'Nunito', Arial, sans-serif;
+  min-height: 100vh;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 10px;
+  background: #e7eefd;
+}
+::-webkit-scrollbar-thumb {
+  background: #c2d3f7;
+  border-radius: 8px;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: #f7f6f8;
+}
+a {
+  color: #1a2980;
+  text-decoration: none;
+  font-weight: bold;
+}
+a:hover {
+  color: #26d0ce;
+  text-decoration: underline;
+}

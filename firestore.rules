@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /allowed_admins/{docId} {
+      // Allows any authenticated user to read from this collection
+      // This is usually fine for a whitelist check
+      allow read: if request.auth != null;
+    }
+    // ... ensure other collections (e.g., 'students', 'admins') have appropriate rules too
+  }
+}
