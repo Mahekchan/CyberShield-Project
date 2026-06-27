@@ -12,7 +12,7 @@ export function useSocketNotifications(
   onFlagged: (msg: FlaggedMessage) => void
 ) {
   useEffect(() => {
-    const socket: Socket = io('http://localhost:5000'); // Change if backend is on another host/port
+    const socket: Socket = io('import.meta.env.VITE_API_URL'); // Change if backend is on another host/port
 
     socket.on('flagged_message', (data: FlaggedMessage) => {
       onFlagged(data);

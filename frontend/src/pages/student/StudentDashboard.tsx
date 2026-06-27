@@ -250,7 +250,7 @@ const ProfileManagement = ({
         setProfileImage(imgUrl);
         // Save to backend
         if (userId) {
-          await fetch("http://localhost:5000/api/students/profile", {
+          await fetch("import.meta.env.VITE_API_URL/api/students/profile", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -270,7 +270,7 @@ const ProfileManagement = ({
       fileInputRef.current.value = "";
     }
     if (userId) {
-      await fetch("http://localhost:5000/api/students/profile", {
+      await fetch("import.meta.env.VITE_API_URL/api/students/profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -286,7 +286,7 @@ const ProfileManagement = ({
     async function fetchProfile() {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/students/profile/${userId}`,
+          `import.meta.env.VITE_API_URL/api/students/profile/${userId}`,
         );
         if (response.ok) {
           const data = await response.json();
@@ -346,7 +346,7 @@ const ProfileManagement = ({
     };
     try {
       const response = await fetch(
-        "http://localhost:5000/api/students/profile",
+        "import.meta.env.VITE_API_URL/api/students/profile",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -362,7 +362,7 @@ const ProfileManagement = ({
         // Re-fetch profile to update state
         if (userId) {
           const updated = await fetch(
-            `http://localhost:5000/api/students/profile/${userId}`,
+            `import.meta.env.VITE_API_URL/api/students/profile/${userId}`,
           );
           if (updated.ok) {
             const data = await updated.json();
@@ -416,7 +416,7 @@ const ProfileManagement = ({
       }
       try {
         const response = await fetch(
-          `http://localhost:5000/api/students/${userId}`,
+          `import.meta.env.VITE_API_URL/api/students/${userId}`,
           { method: "DELETE" },
         );
         if (response.ok) {
@@ -1124,7 +1124,7 @@ export default function StudentDashboard() {
     }
     setLoadingAlerts(true);
     console.log("📡 Fetching alerts for studentMongoId:", studentMongoId);
-    fetch(`http://localhost:5000/api/alerts/student/${studentMongoId}`)
+    fetch(`import.meta.env.VITE_API_URL/api/alerts/student/${studentMongoId}`)
       .then((res) => {
         console.log("📊 Alerts API response status:", res.status);
         if (!res.ok) {
@@ -1153,7 +1153,7 @@ export default function StudentDashboard() {
   useEffect(() => {
     if (!userId) return;
     setLoadingAdminActions(true);
-    fetch(`http://localhost:5000/api/admins/actions/student/${userId}`)
+    fetch(`import.meta.env.VITE_API_URL/api/admins/actions/student/${userId}`)
       .then((res) => res.json())
       .then((data) => {
         setAdminActions(Array.isArray(data) ? data : []);
@@ -1167,7 +1167,7 @@ export default function StudentDashboard() {
 
   // --- Real-time WebSocket for flagged alerts and admin actions ---
   useEffect(() => {
-    const socket: Socket = io("http://localhost:5000");
+    const socket: Socket = io("import.meta.env.VITE_API_URL");
 
     // Listen for flagged messages
     socket.on("flagged_message", (data: any) => {
@@ -1419,7 +1419,7 @@ export default function StudentDashboard() {
       if (user) {
         setUserId(user.uid);
         console.log("👤 Fetching student profile for userId:", user.uid);
-        fetch(`http://localhost:5000/api/students/profile/${user.uid}`)
+        fetch(`import.meta.env.VITE_API_URL/api/students/profile/${user.uid}`)
           .then((res) => {
             console.log("📊 Profile API response status:", res.status);
             if (!res.ok) {

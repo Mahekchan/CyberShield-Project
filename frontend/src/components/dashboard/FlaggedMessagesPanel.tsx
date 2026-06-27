@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Typography,
-  Paper,
-  Stack,
-  Chip,
-  Avatar,
-} from "@mui/material";
+import { Box, Typography, Paper, Stack, Chip, Avatar } from "@mui/material";
 import WarningIcon from "@mui/icons-material/Warning";
 
 type FlaggedMessage = {
@@ -23,14 +16,18 @@ export const FlaggedMessagesPanel: React.FC = () => {
   const [messages, setMessages] = useState<FlaggedMessage[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/flagged-messages")
+    fetch("import.meta.env.VITE_API_URL/api/flagged-messages")
       .then((res) => res.json())
       .then((data) => setMessages(data));
   }, []);
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Typography variant="body1" fontWeight={700} sx={{ mb: 2, fontSize: "1rem" }}>
+      <Typography
+        variant="body1"
+        fontWeight={700}
+        sx={{ mb: 2, fontSize: "1rem" }}
+      >
         Flagged Messages
       </Typography>
       <Stack spacing={2}>
@@ -72,7 +69,11 @@ export const FlaggedMessagesPanel: React.FC = () => {
                     >
                       {msg.comment}
                     </Typography>
-                    <Typography variant="caption" color="text.secondary" sx={{ fontSize: "0.75rem" }}>
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      sx={{ fontSize: "0.75rem" }}
+                    >
                       From: <strong>{msg.senderName || "Unknown"}</strong>
                     </Typography>
                   </Box>

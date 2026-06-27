@@ -86,7 +86,7 @@ The following endpoints are available:
 #### Environment Variables
 Create a `.env` file in the `frontend/` directory:
 ```
-VITE_API_URL=http://localhost:5000
+VITE_API_URL=import.meta.env.VITE_API_URL
 VITE_CHATBOT_ENABLED=true
 ```
 
@@ -217,7 +217,7 @@ Use Postman or curl to test endpoints:
 
 ```bash
 # Send a message
-curl -X POST http://localhost:5000/api/chatbot/chat \
+curl -X POST import.meta.env.VITE_API_URL/api/chatbot/chat \
   -H "Content-Type: application/json" \
   -d '{
     "message": "How to report an issue?",

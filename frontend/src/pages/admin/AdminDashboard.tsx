@@ -186,7 +186,7 @@ const AdminProfileManagement = ({
       if (!userId) return;
       try {
         const res = await fetch(
-          `http://localhost:5000/api/admins/profile/${userId}`,
+          `import.meta.env.VITE_API_URL/api/admins/profile/${userId}`,
         );
         if (res.ok) {
           const data = await res.json();
@@ -256,11 +256,14 @@ const AdminProfileManagement = ({
       appDarkMode: adminProfile.appDarkMode,
     };
     try {
-      const response = await fetch("http://localhost:5000/api/admins/profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(profileData),
-      });
+      const response = await fetch(
+        "import.meta.env.VITE_API_URL/api/admins/profile",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(profileData),
+        },
+      );
       if (response.ok) {
         setSnackbar({
           open: true,
@@ -300,7 +303,7 @@ const AdminProfileManagement = ({
       }
       try {
         const response = await fetch(
-          `http://localhost:5000/api/admins/${userId}`,
+          `import.meta.env.VITE_API_URL/api/admins/${userId}`,
           { method: "DELETE" },
         );
         if (response.ok) {
@@ -1060,7 +1063,7 @@ export default function AdminDashboard() {
     const fetchActiveUsers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/dashboard/active-users",
+          "import.meta.env.VITE_API_URL/api/dashboard/active-users",
         );
         setActiveUsers(response.data.activeUsers || 0);
       } catch (error) {
@@ -1076,7 +1079,7 @@ export default function AdminDashboard() {
     const fetchFlaggedMessages = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/messages/flagged`,
+          `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/messages/flagged`,
         );
 
         if (response.data && Array.isArray(response.data)) {
@@ -1169,7 +1172,7 @@ export default function AdminDashboard() {
 
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/messages/${messageId}/status`,
+        `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/messages/${messageId}/status`,
         { caseStatus: newStatus },
       );
 
@@ -1251,7 +1254,7 @@ export default function AdminDashboard() {
       );
 
       await axios.post(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/messages/${selectedStudentForWarning.reportId}/warn`,
+        `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/messages/${selectedStudentForWarning.reportId}/warn`,
         {
           studentName: selectedStudentForWarning.name,
           studentId:
@@ -1273,7 +1276,8 @@ export default function AdminDashboard() {
 
       // ALSO create a separate AdminAction so it appears on the student's dashboard
       try {
-        const apiBase = import.meta.env.VITE_API_URL || "http://localhost:5000";
+        const apiBase =
+          import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL";
         const adminActionPayload = {
           // Prefer sending firebase uid if available
           studentUserId: selectedStudentForWarning.receiverId,
@@ -1457,7 +1461,7 @@ export default function AdminDashboard() {
 
     setProcessingEscalation(true);
     try {
-      const apiUrl = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/messages/${selectedStudentForEscalation.reportId}/escalate`;
+      const apiUrl = `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/messages/${selectedStudentForEscalation.reportId}/escalate`;
       const payload = {
         action: "suspend",
         duration: suspendDuration,
@@ -1510,7 +1514,7 @@ export default function AdminDashboard() {
 
     setProcessingEscalation(true);
     try {
-      const apiUrl = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/messages/${selectedStudentForEscalation.reportId}/escalate`;
+      const apiUrl = `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/messages/${selectedStudentForEscalation.reportId}/escalate`;
       const payload = {
         action: "ban",
         reason:
@@ -1572,7 +1576,7 @@ export default function AdminDashboard() {
     if (section !== 5) return; // Only fetch when Charts section is active
 
     setChartLoading(true);
-    fetch("http://localhost:5000/api/analytics/weekly-flagged-messages")
+    fetch("import.meta.env.VITE_API_URL/api/analytics/weekly-flagged-messages")
       .then((res) => res.json())
       .then((data) => {
         if (data.weeklyData) {
@@ -1714,7 +1718,7 @@ export default function AdminDashboard() {
 
   // ✅ Socket.io real-time updates (no polling)
   useEffect(() => {
-    const socket = io("http://localhost:5000");
+    const socket = io("import.meta.env.VITE_API_URL");
 
     socket.on("flagged_message", (data) => {
       setIncomingFlagged(data);
@@ -1837,7 +1841,7 @@ export default function AdminDashboard() {
       if (user) {
         try {
           const res = await fetch(
-            `http://localhost:5000/api/admins/profile/${user.uid}`,
+            `import.meta.env.VITE_API_URL/api/admins/profile/${user.uid}`,
           );
           if (res.ok) {
             const data = await res.json();
@@ -1861,7 +1865,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     // Fetch initial active users count
     axios
-      .get("http://localhost:5000/api/dashboard/active-users")
+      .get("import.meta.env.VITE_API_URL/api/dashboard/active-users")
       .then((res) => {
         setStats((prevStats) => {
           const newStats = [...prevStats];
@@ -1871,7 +1875,7 @@ export default function AdminDashboard() {
       });
 
     // Listen for real-time updates
-    const socket = io("http://localhost:5000");
+    const socket = io("import.meta.env.VITE_API_URL");
     socket.on("activeUsersUpdate", (data) => {
       setStats((prevStats) => {
         const newStats = [...prevStats];
@@ -3585,9 +3589,7 @@ export default function AdminDashboard() {
                   background: "rgba(33, 82, 255, 0.08)",
                 },
               }}
-            >
-         
-            </Button>
+            ></Button>
           )}
           {renderSection()}
         </Box>

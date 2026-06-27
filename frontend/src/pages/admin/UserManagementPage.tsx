@@ -41,7 +41,7 @@ const UserManagementPage: React.FC = () => {
       setLoading(true);
       try {
         const res = await axios.get<{ users: StudentProfile[] }>(
-          "http://localhost:5000/api/users"
+          "import.meta.env.VITE_API_URL/api/users",
         );
         // If response is an array, use it directly
         setUsers(Array.isArray(res.data) ? res.data : res.data.users || []);
@@ -54,7 +54,7 @@ const UserManagementPage: React.FC = () => {
     fetchUsers();
 
     // Connect to Socket.IO for real-time updates
-    socket = io("http://localhost:5000");
+    socket = io("import.meta.env.VITE_API_URL");
     socket.on("usersUpdate", (data: { users: StudentProfile[] }) => {
       // If data is an array, use it directly; else use data.users
       if (Array.isArray(data)) {

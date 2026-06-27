@@ -41,7 +41,7 @@ const FlaggedMessagesPage: React.FC = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/messages/flagged`,
+          `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/messages/flagged`,
         );
         console.log(
           "FlaggedMessagesPage - fetched",
@@ -71,7 +71,8 @@ const FlaggedMessagesPage: React.FC = () => {
     try {
       setUpdatingIds((s) => [...s, messageId]);
 
-      const apiBase = import.meta.env.VITE_API_URL || "http://localhost:5000";
+      const apiBase =
+        import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL";
       const res = await axios.put(
         `${apiBase}/api/messages/${messageId}/status`,
         {
@@ -106,7 +107,7 @@ const FlaggedMessagesPage: React.FC = () => {
 
   // Socket.io real-time updates (no polling)
   React.useEffect(() => {
-    const socket = io("http://localhost:5000");
+    const socket = io("import.meta.env.VITE_API_URL");
 
     socket.on("flagged_message", (data) => {
       // Add new flagged message to the top of the list

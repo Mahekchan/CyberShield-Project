@@ -75,7 +75,7 @@ export default function StudentAlertsPage({
     }
 
     setLoadingAlerts(true);
-    fetch(`http://localhost:5000/api/alerts/student/${studentMongoId}`)
+    fetch(`import.meta.env.VITE_API_URL/api/alerts/student/${studentMongoId}`)
       .then((res) => res.json())
       .then((data) => {
         const sortedAlerts = Array.isArray(data)
@@ -97,7 +97,7 @@ export default function StudentAlertsPage({
 
   // Real-time WebSocket for new alerts
   useEffect(() => {
-    const socket: Socket = io("http://localhost:5000");
+    const socket: Socket = io("import.meta.env.VITE_API_URL");
 
     socket.on("flagged_message_student", (data: any) => {
       // Check if this alert is for the current student

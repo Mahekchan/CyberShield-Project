@@ -65,7 +65,7 @@ const AdminActionsPage: React.FC<AdminActionsPageProps> = ({
       try {
         console.log("🔍 Fetching admin actions for userId:", userId);
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/admins/actions/student/${userId}`,
+          `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/admins/actions/student/${userId}`,
         );
 
         console.log("📨 Raw API response:", response);

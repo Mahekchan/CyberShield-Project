@@ -22,7 +22,7 @@ export function useBullyingAlerts(
     if (!enabled) return;
 
     const socket: Socket = io(
-      import.meta.env.VITE_API_URL || 'http://localhost:5000'
+      import.meta.env.VITE_API_URL || 'import.meta.env.VITE_API_URL'
     );
 
     // Listen for bullying alerts

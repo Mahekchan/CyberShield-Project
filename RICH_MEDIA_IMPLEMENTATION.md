@@ -270,7 +270,7 @@ See [MEDIA_QUICK_REFERENCE.md](MEDIA_QUICK_REFERENCE.md) for detailed instructio
 ### Backend Testing
 ```bash
 # Test API endpoint
-curl -X POST http://localhost:5000/api/chatbot/chat \
+curl -X POST import.meta.env.VITE_API_URL/api/chatbot/chat \
   -H "Content-Type: application/json" \
   -d '{
     "message": "Password security",

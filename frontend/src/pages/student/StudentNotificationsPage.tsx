@@ -84,7 +84,7 @@ const StudentNotificationsPage: React.FC<StudentNotificationsPageProps> = ({
   // --- Fetch flagged alerts on component mount ---
   useEffect(() => {
     setLoadingAlerts(true);
-    const fetchUrl = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/messages/flagged`;
+    const fetchUrl = `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/messages/flagged`;
     fetch(fetchUrl)
       .then((res) => res.json())
       .then((data) => {
@@ -117,7 +117,7 @@ const StudentNotificationsPage: React.FC<StudentNotificationsPageProps> = ({
 
   // --- Real-time WebSocket for flagged alerts ---
   useEffect(() => {
-    const socket: Socket = io("http://localhost:5000");
+    const socket: Socket = io("import.meta.env.VITE_API_URL");
     // Join personal room on connect so the server can target this user
     socket.on("connect", () => {
       const uid = auth.currentUser?.uid;

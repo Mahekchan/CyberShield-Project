@@ -42,7 +42,7 @@ NODE_ENV=development
 
 Create `frontend/.env`:
 ```
-VITE_API_URL=http://localhost:5000
+VITE_API_URL=import.meta.env.VITE_API_URL
 VITE_CHATBOT_ENABLED=true
 ```
 

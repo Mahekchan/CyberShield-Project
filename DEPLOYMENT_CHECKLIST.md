@@ -61,7 +61,7 @@
 ### Backend Testing
 ```bash
 # Test basic message
-curl -X POST http://localhost:5000/api/chatbot/chat \
+curl -X POST import.meta.env.VITE_API_URL/api/chatbot/chat \
   -H "Content-Type: application/json" \
   -d '{
     "message": "Security tips",
@@ -195,10 +195,10 @@ tail -f backend.log | grep ERROR
 ### Health Check
 ```bash
 # Test API availability
-curl http://localhost:5000/
+curl import.meta.env.VITE_API_URL/
 
 # Test chatbot endpoint
-curl http://localhost:5000/api/chatbot/chat -X POST
+curl import.meta.env.VITE_API_URL/api/chatbot/chat -X POST
 ```
 
 ---
