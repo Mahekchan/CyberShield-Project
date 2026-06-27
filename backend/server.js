@@ -3,10 +3,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const studentRoutes = require('./backend/routes/studentRoutes');
-const adminRoutes = require('./backend/routes/adminRoutes');
-const dashboardRoutes = require('./backend/routes/dashboard');
-const connectDB = require('./backend/config/db');
+const studentRoutes = require('./routes/studentRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const dashboardRoutes = require('./routes/dashboard');
+const connectDB = require('./config/db');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -27,34 +27,34 @@ app.use('/api/students', studentRoutes);
 app.use('/api/admins', adminRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 // Anonymous report routes (student submit, admin fetch)
-const anonymousReportRoutes = require('./backend/routes/anonymousReportRoutes');
+const anonymousReportRoutes = require('./routes/anonymousReportRoutes');
 app.use('/api/reports', anonymousReportRoutes);
 
 // ✅ New route for user management
-const userManagementRoutes = require('./backend/routes/users');
+const userManagementRoutes = require('./routes/users');
 app.use('/api/users', userManagementRoutes);
 
 // ✅ Chatbot routes
-const chatbotRoutes = require('./backend/routes/chatbotRoutes');
+const chatbotRoutes = require('./routes/chatbotRoutes');
 app.use('/api/chatbot', chatbotRoutes);
 
 // ✅ Messages routes (for flagged messages)
-const messagesRoutes = require('./backend/routes/messages');
+const messagesRoutes = require('./routes/messages');
 app.use('/api/messages', messagesRoutes);
 
 // ✅ Alerts routes (for student dashboard alerts - filtered by receiverId)
-const alertsRoutes = require('./backend/routes/alertsRoutes');
+const alertsRoutes = require('./routes/alertsRoutes');
 app.use('/api/alerts', alertsRoutes);
 
 // ✅ Analytics routes (for admin dashboard charts and insights)
-const analyticsRoutes = require('./backend/routes/analyticsRoutes');
+const analyticsRoutes = require('./routes/analyticsRoutes');
 app.use('/api/analytics', analyticsRoutes);
 
 // ✅ Serve uploaded files as static files
 const path = require('path');
 app.use('/uploads', express.static(path.join(__dirname, 'backend/uploads')));
 
-const Student = require('./backend/models/Student');
+const Student = require('./models/Student');
 
 // Socket.IO: emit active users count
 async function emitActiveUsers(io) {
@@ -80,7 +80,7 @@ async function emitUsers(io) {
 
 // Create HTTP server and initialize Socket.io with CORS
 const http = require('http');
-const initSocket = require('./backend/config/socket');
+const initSocket = require('./config/socket');
 const server = http.createServer(app);
 const io = initSocket(server); // <-- get io instance here
 
@@ -97,7 +97,7 @@ io.on('connection', (socket) => {
 });
 
 // Patch studentController to emit on profile changes
-const studentController = require('./backend/controllers/studentController');
+const studentController = require('./controllers/studentController');
 const origCreateOrUpdate = studentController.createOrUpdateStudentProfile;
 studentController.createOrUpdateStudentProfile = async function (req, res) {
   await origCreateOrUpdate.apply(this, arguments);
