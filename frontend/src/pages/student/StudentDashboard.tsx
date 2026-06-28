@@ -30,7 +30,6 @@ import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
 import ShieldRoundedIcon from "@mui/icons-material/ShieldRounded";
 import LocalFireDepartmentRoundedIcon from "@mui/icons-material/LocalFireDepartmentRounded";
 import { useState, useEffect, useRef, useMemo } from "react";
@@ -45,7 +44,7 @@ import StudentSidebar from "./StudentSidebar";
 import StudentResourcesPage from "./StudentResourcesPage";
 import StudentAlertsPage from "./StudentAlertsPage";
 import AdminActionsPage from "./AdminActionsPage";
-import Chatbot from "../../components/chatbot";
+import Chatbot from "../../components/ChatBot";
 
 // --- Argon color and style constants ---
 const argonGradient = "linear-gradient(90deg, #2152ff 0%, #21d4fd 100%)";
@@ -109,7 +108,7 @@ type AdminAction = {
 type PlatformStatus = {
   name: string;
   status: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
   flag: boolean;
 };
 
@@ -1327,17 +1326,20 @@ export default function StudentDashboard() {
   const safetyStreak = useMemo(() => {
     if (alerts.length === 0) return 999; // No alerts ever = unlimited streak
 
+    const getAlertDate = (alert: any) => {
+      const dateString = alert.createdAt ?? alert.created_at;
+      return dateString ? new Date(dateString) : new Date(0);
+    };
+
     // Find the most recent alert
     const sortedAlerts = [...alerts].sort((a, b) => {
-      const dateA = new Date(a.createdAt || a.created_at).getTime();
-      const dateB = new Date(b.createdAt || b.created_at).getTime();
+      const dateA = getAlertDate(a).getTime();
+      const dateB = getAlertDate(b).getTime();
       return dateB - dateA;
     });
 
     const mostRecentAlert = sortedAlerts[0];
-    const lastAlertDate = new Date(
-      mostRecentAlert.createdAt || mostRecentAlert.created_at,
-    );
+    const lastAlertDate = getAlertDate(mostRecentAlert);
     const now = new Date();
     const daysWithoutAlert = Math.floor(
       (now.getTime() - lastAlertDate.getTime()) / (1000 * 60 * 60 * 24),

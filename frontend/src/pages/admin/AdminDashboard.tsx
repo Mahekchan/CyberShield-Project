@@ -1769,7 +1769,7 @@ export default function AdminDashboard() {
 
   type Platform = {
     name: string;
-    icon: JSX.Element;
+    icon: React.ReactNode;
     status: string;
     color: string;
     monitorTypes?: string[];
