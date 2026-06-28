@@ -22,7 +22,7 @@ export const ModerationSocketProvider: React.FC<Props> = ({
   children,
 }) => {
   const backendUrl =
-    import.meta.env.VITE_BACKEND_URL || "https://localhost:5000";
+    import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   const socket = useMemo(() => {
     if (!token) return null;
