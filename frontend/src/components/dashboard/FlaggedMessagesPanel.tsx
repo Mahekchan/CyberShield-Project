@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography, Paper, Stack, Chip, Avatar } from "@mui/material";
 import WarningIcon from "@mui/icons-material/Warning";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 type FlaggedMessage = {
   id: number;
   comment: string;
@@ -16,7 +18,7 @@ export const FlaggedMessagesPanel: React.FC = () => {
   const [messages, setMessages] = useState<FlaggedMessage[]>([]);
 
   useEffect(() => {
-    fetch("import.meta.env.VITE_API_URL/api/flagged-messages")
+    fetch(`${API_URL}/api/flagged-messages`)
       .then((res) => res.json())
       .then((data) => setMessages(data));
   }, []);

@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useMemo } from "react";
 import { io, Socket } from "socket.io-client";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 interface ModerationSocketContextValue {
   socket: Socket | null;
 }
@@ -22,7 +24,7 @@ export const ModerationSocketProvider: React.FC<Props> = ({
   children,
 }) => {
   const backendUrl =
-    import.meta.env.VITE_API_URL || "http://localhost:5000";
+    API_URL;
 
   const socket = useMemo(() => {
     if (!token) return null;

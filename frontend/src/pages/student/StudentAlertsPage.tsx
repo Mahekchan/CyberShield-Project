@@ -21,6 +21,8 @@ import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { io, Socket } from "socket.io-client";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 interface FlaggedAlert {
   _id: string;
   senderName: string;
@@ -75,7 +77,7 @@ export default function StudentAlertsPage({
     }
 
     setLoadingAlerts(true);
-    fetch(`import.meta.env.VITE_API_URL/api/alerts/student/${studentMongoId}`)
+    fetch(`${API_URL}/api/alerts/student/${studentMongoId}`)
       .then((res) => res.json())
       .then((data) => {
         const sortedAlerts = Array.isArray(data)
@@ -97,7 +99,7 @@ export default function StudentAlertsPage({
 
   // Real-time WebSocket for new alerts
   useEffect(() => {
-    const socket: Socket = io("import.meta.env.VITE_API_URL");
+    const socket: Socket = io(API_URL);
 
     socket.on("flagged_message_student", (data: any) => {
       // Check if this alert is for the current student

@@ -12,6 +12,8 @@ import WarningIcon from "@mui/icons-material/Warning";
 import axios from "axios";
 import { io } from "socket.io-client";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 interface FlaggedMessage {
   _id: string;
   senderId: string;
@@ -40,9 +42,7 @@ const FlaggedMessagesPage: React.FC = () => {
     const fetchFlaggedMessages = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/messages/flagged`,
-        );
+        const response = await axios.get(`${API_URL}/api/messages/flagged`);
         console.log(
           "FlaggedMessagesPage - fetched",
           Array.isArray(response.data)
@@ -71,8 +71,7 @@ const FlaggedMessagesPage: React.FC = () => {
     try {
       setUpdatingIds((s) => [...s, messageId]);
 
-      const apiBase =
-        import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL";
+      const apiBase = API_URL;
       const res = await axios.put(
         `${apiBase}/api/messages/${messageId}/status`,
         {
@@ -107,7 +106,7 @@ const FlaggedMessagesPage: React.FC = () => {
 
   // Socket.io real-time updates (no polling)
   React.useEffect(() => {
-    const socket = io("import.meta.env.VITE_API_URL");
+    const socket = io(API_URL);
 
     socket.on("flagged_message", (data) => {
       // Add new flagged message to the top of the list

@@ -68,7 +68,8 @@ import NotificationsPage from "./AdminNotificationsPage";
 import AdminNavbar from "./AdminNavbar";
 import AlertsList from "../../components/dashboard/AlertsList";
 
-const API_URL = import.meta.env.VITE_API_URL as string;
+const API_URL = import.meta.env.VITE_API_URL;
+
 const drawerWidth = 210;
 const paperRadius = 4.5;
 const fontFamily = "'Inter', 'Poppins', Arial, sans-serif";
@@ -187,7 +188,7 @@ const AdminProfileManagement = ({
       if (!userId) return;
       try {
         const res = await fetch(
-          `import.meta.env.VITE_API_URL/api/admins/profile/${userId}`,
+          `${API_URL}/api/admins/profile/${userId}`,
         );
         if (res.ok) {
           const data = await res.json();
@@ -258,7 +259,7 @@ const AdminProfileManagement = ({
     };
     try {
       const response = await fetch(
-        "import.meta.env.VITE_API_URL/api/admins/profile",
+        `${API_URL}/api/admins/profile`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -304,7 +305,7 @@ const AdminProfileManagement = ({
       }
       try {
         const response = await fetch(
-          `import.meta.env.VITE_API_URL/api/admins/${userId}`,
+          `${API_URL}/api/admins/${userId}`,
           { method: "DELETE" },
         );
         if (response.ok) {
@@ -1255,7 +1256,7 @@ export default function AdminDashboard() {
       );
 
       await axios.post(
-        `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/messages/${selectedStudentForWarning.reportId}/warn`,
+        `${API_URL}/api/messages/${selectedStudentForWarning.reportId}/warn`,
         {
           studentName: selectedStudentForWarning.name,
           studentId:
@@ -1277,8 +1278,7 @@ export default function AdminDashboard() {
 
       // ALSO create a separate AdminAction so it appears on the student's dashboard
       try {
-        const apiBase =
-          import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL";
+        const apiBase = API_URL;
         const adminActionPayload = {
           // Prefer sending firebase uid if available
           studentUserId: selectedStudentForWarning.receiverId,
@@ -1409,7 +1409,7 @@ export default function AdminDashboard() {
 
     setProcessingEscalation(true);
     try {
-      const apiUrl = `${import.meta.env.VITE_API_URL}/api/messages/${selectedStudentForEscalation.reportId}/escalate`;
+      const apiUrl = `${API_URL}/api/messages/${selectedStudentForEscalation.reportId}/escalate`;
       const payload = {
         action: "restrict",
         duration: restrictDuration,
@@ -1462,7 +1462,7 @@ export default function AdminDashboard() {
 
     setProcessingEscalation(true);
     try {
-      const apiUrl = `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/messages/${selectedStudentForEscalation.reportId}/escalate`;
+      const apiUrl = `${API_URL}/api/messages/${selectedStudentForEscalation.reportId}/escalate`;
       const payload = {
         action: "suspend",
         duration: suspendDuration,
@@ -1515,7 +1515,7 @@ export default function AdminDashboard() {
 
     setProcessingEscalation(true);
     try {
-      const apiUrl = `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/messages/${selectedStudentForEscalation.reportId}/escalate`;
+      const apiUrl = `${API_URL}/api/messages/${selectedStudentForEscalation.reportId}/escalate`;
       const payload = {
         action: "ban",
         reason:
@@ -1577,7 +1577,7 @@ export default function AdminDashboard() {
     if (section !== 5) return; // Only fetch when Charts section is active
 
     setChartLoading(true);
-    fetch("import.meta.env.VITE_API_URL/api/analytics/weekly-flagged-messages")
+    fetch(`${API_URL}/api/analytics/weekly-flagged-messages`)
       .then((res) => res.json())
       .then((data) => {
         if (data.weeklyData) {
@@ -1719,7 +1719,7 @@ export default function AdminDashboard() {
 
   // ✅ Socket.io real-time updates (no polling)
   useEffect(() => {
-    const socket = io("import.meta.env.VITE_API_URL");
+    const socket = io(API_URL);
 
     socket.on("flagged_message", (data) => {
       setIncomingFlagged(data);
@@ -1842,7 +1842,7 @@ export default function AdminDashboard() {
       if (user) {
         try {
           const res = await fetch(
-            `import.meta.env.VITE_API_URL/api/admins/profile/${user.uid}`,
+            `${API_URL}/api/admins/profile/${user.uid}`,
           );
           if (res.ok) {
             const data = await res.json();
@@ -1866,7 +1866,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     // Fetch initial active users count
     axios
-      .get("import.meta.env.VITE_API_URL/api/dashboard/active-users")
+      .get(`${API_URL}/api/dashboard/active-users`)
       .then((res) => {
         setStats((prevStats) => {
           const newStats = [...prevStats];
@@ -1876,7 +1876,7 @@ export default function AdminDashboard() {
       });
 
     // Listen for real-time updates
-    const socket = io("import.meta.env.VITE_API_URL");
+    const socket = io(API_URL);
     socket.on("activeUsersUpdate", (data) => {
       setStats((prevStats) => {
         const newStats = [...prevStats];

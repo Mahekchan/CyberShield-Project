@@ -20,6 +20,8 @@ import GppBadRoundedIcon from "@mui/icons-material/GppBadRounded";
 import { auth } from "../../services/Firebase";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 interface AdminAction {
   _id: string;
   senderId: string;
@@ -65,7 +67,7 @@ const AdminActionsPage: React.FC<AdminActionsPageProps> = ({
       try {
         console.log("🔍 Fetching admin actions for userId:", userId);
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/admins/actions/student/${userId}`,
+          `${API_URL}/api/admins/actions/student/${userId}`,
         );
 
         console.log("📨 Raw API response:", response);

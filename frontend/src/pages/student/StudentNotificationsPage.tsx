@@ -23,6 +23,8 @@ import { useState, useEffect, useMemo } from "react";
 import { auth } from "../../services/Firebase";
 import { io, Socket } from "socket.io-client";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 // Define the type for a flagged alert, consistent with your files.
 type FlaggedAlert = {
   id: number;
@@ -84,7 +86,7 @@ const StudentNotificationsPage: React.FC<StudentNotificationsPageProps> = ({
   // --- Fetch flagged alerts on component mount ---
   useEffect(() => {
     setLoadingAlerts(true);
-    const fetchUrl = `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/messages/flagged`;
+    const fetchUrl = `${API_URL}/api/messages/flagged`;
     fetch(fetchUrl)
       .then((res) => res.json())
       .then((data) => {
@@ -117,7 +119,7 @@ const StudentNotificationsPage: React.FC<StudentNotificationsPageProps> = ({
 
   // --- Real-time WebSocket for flagged alerts ---
   useEffect(() => {
-    const socket: Socket = io("import.meta.env.VITE_API_URL");
+    const socket: Socket = io(API_URL);
     // Join personal room on connect so the server can target this user
     socket.on("connect", () => {
       const uid = auth.currentUser?.uid;

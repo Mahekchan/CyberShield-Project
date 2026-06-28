@@ -20,6 +20,8 @@ import ChatIcon from "@mui/icons-material/Chat";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 interface Analytics {
   totalMessages: number;
   totalQuestions: number;
@@ -52,8 +54,8 @@ const ChatbotAnalyticsDashboard: React.FC<DashboardProps> = ({
       setLoading(true);
       const endpoint =
         userType === "admin"
-          ? `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/chatbot/analytics/all`
-          : `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/chatbot/analytics/user/${userId}`;
+          ? `${API_URL}/api/chatbot/analytics/all`
+          : `${API_URL}/api/chatbot/analytics/user/${userId}`;
 
       const response = await axios.get(endpoint);
       setAnalytics(response.data);

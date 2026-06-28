@@ -45,6 +45,8 @@ import StudentAlertsPage from "./StudentAlertsPage";
 import AdminActionsPage from "./AdminActionsPage";
 import Chatbot from "../../components/ChatBot";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 // --- Argon color and style constants ---
 const argonGradient = "linear-gradient(90deg, #2152ff 0%, #21d4fd 100%)";
 const argonCardShadow = "0 8px 32px 0 #2152ff22";
@@ -251,7 +253,7 @@ const ProfileManagement = ({
         setProfileImage(imgUrl);
         // Save to backend
         if (userId) {
-          await fetch("import.meta.env.VITE_API_URL/api/students/profile", {
+          await fetch(`${API_URL}/api/students/profile`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -271,7 +273,7 @@ const ProfileManagement = ({
       fileInputRef.current.value = "";
     }
     if (userId) {
-      await fetch("import.meta.env.VITE_API_URL/api/students/profile", {
+      await fetch(`${API_URL}/api/students/profile`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -287,7 +289,7 @@ const ProfileManagement = ({
     async function fetchProfile() {
       try {
         const response = await fetch(
-          `import.meta.env.VITE_API_URL/api/students/profile/${userId}`,
+          `${API_URL}/api/students/profile/${userId}`,
         );
         if (response.ok) {
           const data = await response.json();
@@ -346,14 +348,11 @@ const ProfileManagement = ({
       isProfileComplete: true,
     };
     try {
-      const response = await fetch(
-        "import.meta.env.VITE_API_URL/api/students/profile",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(profileData),
-        },
-      );
+      const response = await fetch(`${API_URL}/api/students/profile`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profileData),
+      });
       if (response.ok) {
         setSnackbar({
           open: true,
@@ -363,7 +362,7 @@ const ProfileManagement = ({
         // Re-fetch profile to update state
         if (userId) {
           const updated = await fetch(
-            `import.meta.env.VITE_API_URL/api/students/profile/${userId}`,
+            `${API_URL}/api/students/profile/${userId}`,
           );
           if (updated.ok) {
             const data = await updated.json();
@@ -416,10 +415,9 @@ const ProfileManagement = ({
         return;
       }
       try {
-        const response = await fetch(
-          `import.meta.env.VITE_API_URL/api/students/${userId}`,
-          { method: "DELETE" },
-        );
+        const response = await fetch(`${API_URL}/api/students/${userId}`, {
+          method: "DELETE",
+        });
         if (response.ok) {
           setSnackbar({
             open: true,
@@ -1125,7 +1123,7 @@ export default function StudentDashboard() {
     }
     setLoadingAlerts(true);
     console.log("📡 Fetching alerts for studentMongoId:", studentMongoId);
-    fetch(`import.meta.env.VITE_API_URL/api/alerts/student/${studentMongoId}`)
+    fetch(`${API_URL}/api/alerts/student/${studentMongoId}`)
       .then((res) => {
         console.log("📊 Alerts API response status:", res.status);
         if (!res.ok) {
@@ -1154,7 +1152,7 @@ export default function StudentDashboard() {
   useEffect(() => {
     if (!userId) return;
     setLoadingAdminActions(true);
-    fetch(`import.meta.env.VITE_API_URL/api/admins/actions/student/${userId}`)
+    fetch(`${API_URL}/api/admins/actions/student/${userId}`)
       .then((res) => res.json())
       .then((data) => {
         setAdminActions(Array.isArray(data) ? data : []);
@@ -1168,7 +1166,7 @@ export default function StudentDashboard() {
 
   // --- Real-time WebSocket for flagged alerts and admin actions ---
   useEffect(() => {
-    const socket: Socket = io("import.meta.env.VITE_API_URL");
+    const socket: Socket = io(API_URL);
 
     // Listen for flagged messages
     socket.on("flagged_message", (data: any) => {
@@ -1305,7 +1303,7 @@ export default function StudentDashboard() {
       if (contactOption === "contact" && studentMongoId) {
         body.studentId = studentMongoId; // Use MongoDB ObjectId
       }
-      await fetch("/api/reports/anonymous", {
+      await fetch(`${API_URL}/api/reports/anonymous`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -1423,7 +1421,7 @@ export default function StudentDashboard() {
       if (user) {
         setUserId(user.uid);
         console.log("👤 Fetching student profile for userId:", user.uid);
-        fetch(`import.meta.env.VITE_API_URL/api/students/profile/${user.uid}`)
+        fetch(`${API_URL}/api/students/profile/${user.uid}`)
           .then((res) => {
             console.log("📊 Profile API response status:", res.status);
             if (!res.ok) {

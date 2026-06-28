@@ -2,6 +2,8 @@
 import { useEffect, useCallback } from 'react';
 import { io, Socket } from 'socket.io-client';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export interface BullyingAlert {
   id: string;
   timestamp: Date;
@@ -21,9 +23,7 @@ export function useBullyingAlerts(
   useEffect(() => {
     if (!enabled) return;
 
-    const socket: Socket = io(
-      import.meta.env.VITE_API_URL || 'import.meta.env.VITE_API_URL'
-    );
+    const socket: Socket = io(API_URL);
 
     // Listen for bullying alerts
     socket.on('bullying:alert', (data: BullyingAlert) => {

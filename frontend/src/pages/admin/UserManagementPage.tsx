@@ -14,6 +14,8 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 type StudentProfile = {
   _id?: string;
   userId: string;
@@ -41,7 +43,7 @@ const UserManagementPage: React.FC = () => {
       setLoading(true);
       try {
         const res = await axios.get<{ users: StudentProfile[] }>(
-          "import.meta.env.VITE_API_URL/api/users",
+          `${API_URL}/api/users`,
         );
         // If response is an array, use it directly
         setUsers(Array.isArray(res.data) ? res.data : res.data.users || []);
@@ -54,7 +56,7 @@ const UserManagementPage: React.FC = () => {
     fetchUsers();
 
     // Connect to Socket.IO for real-time updates
-    socket = io("import.meta.env.VITE_API_URL");
+    socket = io(API_URL);
     socket.on("usersUpdate", (data: { users: StudentProfile[] }) => {
       // If data is an array, use it directly; else use data.users
       if (Array.isArray(data)) {
