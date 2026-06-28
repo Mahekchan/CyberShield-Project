@@ -20,7 +20,6 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
-import ChatBubbleRoundedIcon from "@mui/icons-material/ChatBubbleRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
 import EmojiEmotionsRoundedIcon from "@mui/icons-material/EmojiEmotionsRounded";
@@ -79,9 +78,12 @@ const wellnessResources = [
 ];
 
 type FlaggedAlert = {
-  id: number;
-  comment: string;
-  cleaned: string;
+  id?: number | string;
+  _id?: string;
+  senderName?: string;
+  text?: string;
+  comment?: string;
+  cleaned?: string;
   labels: string[];
   reasons: string[];
   created_at?: string;

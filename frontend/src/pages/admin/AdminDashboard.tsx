@@ -1,4 +1,4 @@
-import Chatbot from "../../components/chatbot";
+import Chatbot from "../../components/ChatBot";
 import { auth } from "../../services/Firebase";
 import UserManagementPage from "../admin/UserManagementPage";
 import axios from "axios";
