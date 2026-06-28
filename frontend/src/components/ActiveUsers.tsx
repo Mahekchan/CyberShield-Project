@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const socket = io("import.meta.env.VITE_API_URL");
+const API_URL = import.meta.env.VITE_API_URL;
+
+const socket = io(API_URL);
 
 const ActiveUsers = () => {
   const [activeUsers, setActiveUsers] = useState(0);
@@ -10,7 +12,7 @@ const ActiveUsers = () => {
   useEffect(() => {
     // Fetch initial count
     axios
-      .get("import.meta.env.VITE_API_URL/api/dashboard/active-users")
+      .get(`${API_URL}/api/dashboard/active-users`)
       .then((res) => setActiveUsers(res.data.activeUsers))
       .catch(() => setActiveUsers(0));
 

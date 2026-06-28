@@ -3,7 +3,10 @@ import { io } from "socket.io-client";
 
 export default function FlaggedNotification() {
   useEffect(() => {
-    const socket = io("import.meta.env.VITE_API_URL"); // Adjust if backend runs elsewhere
+    const API_URL = import.meta.env.VITE_API_URL;
+
+    const socket = io(API_URL);
+ // Adjust if backend runs elsewhere
 
     socket.on("flagged_message", (data) => {
       // You can replace this with a toast/modal/alert

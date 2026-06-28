@@ -2,7 +2,7 @@ import axios from "axios";
 // Update the import path to the correct location of the 'Report' type
 import type { Report } from "./types";
 
-const API_URL = "http://127.0.0.1:5000";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchFlaggedReports = async (): Promise<Report[]> => {
   const res = await axios.get<Report[]>(`${API_URL}/flagged`);

@@ -68,6 +68,7 @@ import NotificationsPage from "./AdminNotificationsPage";
 import AdminNavbar from "./AdminNavbar";
 import AlertsList from "../../components/dashboard/AlertsList";
 
+const API_URL = import.meta.env.VITE_API_URL as string;
 const drawerWidth = 210;
 const paperRadius = 4.5;
 const fontFamily = "'Inter', 'Poppins', Arial, sans-serif";
@@ -1063,7 +1064,7 @@ export default function AdminDashboard() {
     const fetchActiveUsers = async () => {
       try {
         const response = await axios.get(
-          "import.meta.env.VITE_API_URL/api/dashboard/active-users",
+          `${API_URL}/api/dashboard/active-users`,
         );
         setActiveUsers(response.data.activeUsers || 0);
       } catch (error) {
@@ -1079,7 +1080,7 @@ export default function AdminDashboard() {
     const fetchFlaggedMessages = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/messages/flagged`,
+          `${API_URL}/api/messages/flagged`,
         );
 
         if (response.data && Array.isArray(response.data)) {
@@ -1172,7 +1173,7 @@ export default function AdminDashboard() {
 
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL"}/api/messages/${messageId}/status`,
+        `${API_URL}/api/messages/${messageId}/status`,
         { caseStatus: newStatus },
       );
 
